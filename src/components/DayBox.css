@@ -1,0 +1,83 @@
+.day-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg-card);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: var(--shadow-sm);
+  font-family: inherit;
+  overflow: hidden;
+}
+
+.day-box:hover:not(:disabled) {
+  border-color: var(--color-primary-light);
+  background: var(--color-bg-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.day-box:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.day-box--checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary-dark);
+  color: #ffffff;
+}
+
+.day-box--checked:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.day-box--loading {
+  opacity: 0.6;
+  cursor: wait;
+  pointer-events: none;
+}
+
+.day-box__number {
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.85;
+}
+
+.day-box--checked .day-box__number {
+  font-size: 0.6rem;
+  opacity: 0.7;
+}
+
+.day-box__check {
+  width: 55%;
+  height: 55%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.day-box__check svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.day-box--checked .day-box__check {
+  animation: pop-in 0.2s ease;
+}

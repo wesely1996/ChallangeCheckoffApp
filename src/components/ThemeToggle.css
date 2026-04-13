@@ -1,0 +1,62 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-bg-card);
+  border: 1.5px solid var(--color-border);
+  border-radius: 9999px;
+  padding: 4px 6px;
+  cursor: pointer;
+  position: relative;
+  width: 80px;
+  height: 36px;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.theme-toggle:active {
+  transform: translateY(0);
+}
+
+.theme-toggle__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.theme-toggle__option--pink {
+  color: #e91e8c;
+}
+
+.theme-toggle__option--blue {
+  color: #3b82f6;
+}
+
+.theme-toggle__knob {
+  position: absolute;
+  top: 3px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+}
+
+.theme-toggle--pink .theme-toggle__knob {
+  left: 3px;
+}
+
+.theme-toggle--blue .theme-toggle__knob {
+  left: calc(100% - 33px);
+}

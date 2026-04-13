@@ -1,0 +1,66 @@
+/* Setup banner shown before Apps Script is configured */
+.setup-banner {
+  max-width: 560px;
+  margin: 40px auto;
+  background: var(--color-bg-card);
+  border: 1.5px solid var(--color-border);
+  border-radius: 20px;
+  padding: 36px 40px;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.setup-banner__icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.setup-banner__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.setup-banner__text {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.setup-banner__text code,
+.setup-banner__steps code {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary-dark);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.85em;
+}
+
+.setup-banner__steps {
+  text-align: left;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+
+.setup-banner__steps ol {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.setup-banner__steps li {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.setup-banner__steps strong {
+  color: var(--color-text);
+}
