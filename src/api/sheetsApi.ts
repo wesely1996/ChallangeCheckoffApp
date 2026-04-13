@@ -4,7 +4,7 @@ import type { Challenge } from "../types/challenge";
 // Instructions: Extensions > Apps Script > Deploy > New deployment > Web app
 // Execute as: Me, Who has access: Anyone
 export const SCRIPT_URL: string =
-  "https://script.google.com/macros/s/AKfycbzXIglNPjIzG4HtK_CoXM-A4urZjomYpq4w0VUQBMNUDksmNhohzlHnEnJf8y14nUdw/exec";
+  "https://script.google.com/macros/s/AKfycbwbuLPTIlPg4FcOa6RmtukbwHSNFRzpFIClDEeHBPmo_SvuMbFneXKr33HeuoGzqiKW/exec";
 
 function parseCompletedDays(raw: string): number[] {
   if (!raw || raw.trim() === "") return [];

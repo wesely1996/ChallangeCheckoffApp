@@ -1,73 +1,51 @@
-# React + TypeScript + Vite
+# Challenge Checkoff App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React app for tracking multi-day challenges. Mark off days as you complete them, visualize your progress, and manage multiple challenges at once.
 
-Currently, two official plugins are available:
+Live at: [wesely1996.github.io/ChallangeCheckoffApp](https://wesely1996.github.io/ChallangeCheckoffApp/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Create challenges with a custom name, duration (in days), and start date
+- Check off individual days as you complete them (optimistic updates)
+- Progress bar per challenge
+- Delete challenges with a confirmation dialog
+- Pink / blue theme toggle, persisted to `localStorage`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the ESLint configuration
+- React 19 + TypeScript + Vite
+- Google Sheets as the database, accessed via a Google Apps Script web app
+- Deployed to GitHub Pages via `gh-pages`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Commands
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev        # Start dev server with HMR
+npm run build      # Type-check + build to dist/
+npm run lint       # ESLint
+npm run preview    # Preview production build locally
+npm run deploy     # Build + publish to GitHub Pages
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Data layer
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+All persistence goes through a Google Apps Script web app acting as a REST-ish API. The frontend calls it directly from the browser:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Action | Method | Description |
+|---|---|---|
+| `getChallenges` | GET | Fetch all challenges |
+| `createChallenge` | POST | Create a new challenge |
+| `toggleDay` | POST | Mark/unmark a day |
+| `deleteChallenge` | POST | Delete a challenge |
+
+The script URL is hardcoded in `src/api/sheetsApi.ts`. POST requests use `Content-Type: text/plain` to avoid CORS preflight.
+
+The Apps Script source lives in `google-apps-script/Code.gs` and must be manually deployed from within Google Sheets via **Extensions > Apps Script > Deploy**.
+
+## Setup
+
+1. Clone the repo and run `npm install`
+2. Open the Google Sheet and deploy `google-apps-script/Code.gs` as a web app (anyone, execute as you)
+3. Paste the deployment URL into `SCRIPT_URL` in `src/api/sheetsApi.ts`
+4. Run `npm run dev`
