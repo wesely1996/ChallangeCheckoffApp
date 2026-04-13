@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
-import { Layout } from './components/Layout';
-import { ChallengeList } from './components/ChallengeList';
-import { ChallengeDetail } from './components/ChallengeDetail';
-import { CreateChallengeModal } from './components/CreateChallengeModal';
+import { Layout } from './components/layout/Layout';
+import { ChallengeList } from './components/challenge/ChallengeList';
+import { ChallengeDetail } from './components/challenge/ChallengeDetail';
+import { CreateChallengeModal } from './components/challenge/CreateChallengeModal';
 import { getChallenges, createChallenge, SCRIPT_URL } from './api/sheetsApi';
 import type { Challenge } from './types/challenge';
 import './App.css';

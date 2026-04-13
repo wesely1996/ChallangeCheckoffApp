@@ -84,3 +84,37 @@ export async function deleteChallenge(id: string): Promise<void> {
   const data = await res.json();
   if (!data.success) throw new Error(data.error || "Unknown error");
 }
+
+// ---- Step Counter ----
+
+export interface StepRecord {
+  date: string; // "YYYY-MM-DD"
+  steps: number;
+}
+
+export async function saveStepRecord(
+  date: string,
+  steps: number,
+): Promise<void> {
+  const res = await fetch(SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({ action: "saveStepRecord", date, steps }),
+    redirect: "follow",
+  });
+  if (!res.ok) throw new Error("Failed to save step record");
+  const data = await res.json();
+  if (!data.success) throw new Error(data.error || "Unknown error");
+}
+
+export async function getStepHistory(): Promise<StepRecord[]> {
+  const url = `${SCRIPT_URL}?action=getStepHistory`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed to fetch step history");
+  const data = await res.json();
+  if (!data.success) throw new Error(data.error || "Unknown error");
+  return (data.records as Array<{ date: string; steps: string }>).map((r) => ({
+    date: r.date,
+    steps: parseInt(r.steps, 10) || 0,
+  }));
+}

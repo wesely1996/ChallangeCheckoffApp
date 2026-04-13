@@ -1,4 +1,4 @@
-import type { Challenge } from '../types/challenge';
+import type { Challenge } from '../../types/challenge';
 import './ChallengeCard.css';
 
 interface ChallengeCardProps {

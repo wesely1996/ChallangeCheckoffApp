@@ -1,5 +1,7 @@
-import type { Challenge } from '../types/challenge';
+import type { Challenge } from '../../types/challenge';
 import { ChallengeCard } from './ChallengeCard';
+import { StepCounter } from '../step-counter/StepCounter';
+import bowImg from '../../assets/bow.png';
 import './ChallengeList.css';
 
 interface ChallengeListProps {
@@ -63,9 +65,11 @@ export function ChallengeList({
         </button>
       </div>
 
+      <StepCounter />
+
       {challenges.length === 0 ? (
         <div className="challenge-list__empty">
-          <div className="challenge-list__empty-icon" aria-hidden="true">✦</div>
+          <img src={bowImg} alt="" className="challenge-list__empty-icon" width={52} height={52} style={{ opacity: 0.5 }} />
           <h2 className="challenge-list__empty-title">No challenges yet</h2>
           <p className="challenge-list__empty-text">
             Start your first challenge and track your progress day by day.

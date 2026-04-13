@@ -68,9 +68,10 @@
 }
 
 .challenge-list__empty-icon {
-  font-size: 3rem;
   color: var(--color-primary-light);
   margin-bottom: 4px;
+  display: flex;
+  justify-content: center;
 }
 
 .challenge-list__empty-title {

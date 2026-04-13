@@ -1,4 +1,5 @@
 import { ThemeToggle } from './ThemeToggle';
+import bowImg from '../../assets/bow.png';
 import './Layout.css';
 
 interface LayoutProps {
@@ -11,7 +12,7 @@ export function Layout({ children }: LayoutProps) {
       <header className="layout__header">
         <div className="layout__header-inner">
           <div className="layout__brand">
-            <span className="layout__brand-icon">✦</span>
+            <img src={bowImg} alt="" className="layout__brand-icon" width={24} height={24} />
             <span className="layout__brand-title">Challenge Checkoff</span>
           </div>
           <ThemeToggle />

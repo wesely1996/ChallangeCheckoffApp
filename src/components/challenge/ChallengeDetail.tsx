@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import type { Challenge } from '../types/challenge';
+import type { Challenge } from '../../types/challenge';
 import { DayBox } from './DayBox';
-import { toggleDay, deleteChallenge } from '../api/sheetsApi';
+import { toggleDay, deleteChallenge } from '../../api/sheetsApi';
 import './ChallengeDetail.css';
 
 interface ChallengeDetailProps {

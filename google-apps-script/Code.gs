@@ -26,6 +26,19 @@
 var SHEET_NAME = 'Challenges';
 var HEADERS = ['id', 'title', 'duration', 'createdAt', 'completedDays'];
 
+var STEPS_SHEET_NAME = 'Steps';
+var STEPS_HEADERS = ['date', 'steps'];
+
+function getStepsSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(STEPS_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(STEPS_SHEET_NAME);
+    sheet.appendRow(STEPS_HEADERS);
+  }
+  return sheet;
+}
+
 function getSheet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(SHEET_NAME);
@@ -60,6 +73,8 @@ function doGet(e) {
 
   if (action === 'getChallenges') {
     result = handleGetChallenges();
+  } else if (action === 'getStepHistory') {
+    result = handleGetStepHistory();
   } else {
     result = { success: false, error: 'Unknown action: ' + action };
   }
@@ -90,6 +105,9 @@ function doPost(e) {
       break;
     case 'deleteChallenge':
       result = handleDeleteChallenge(body.id);
+      break;
+    case 'saveStepRecord':
+      result = handleSaveStepRecord(body.date, body.steps);
       break;
     default:
       result = { success: false, error: 'Unknown action: ' + body.action };
@@ -175,6 +193,56 @@ function handleDeleteChallenge(id) {
       return { success: false, error: 'Challenge not found: ' + id };
     }
     sheet.deleteRow(rowIndex);
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: String(err) };
+  }
+}
+
+// ---- Step Counter Handlers ----
+
+function handleGetStepHistory() {
+  try {
+    var sheet = getStepsSheet();
+    var data = sheet.getDataRange().getValues();
+    var records = [];
+    // Sort descending by date, return last 30 days
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0]) {
+        records.push({ date: String(data[i][0]), steps: String(data[i][1] || 0) });
+      }
+    }
+    // Sort newest first
+    records.sort(function(a, b) { return b.date.localeCompare(a.date); });
+    return { success: true, records: records.slice(0, 30) };
+  } catch (err) {
+    return { success: false, error: String(err) };
+  }
+}
+
+function handleSaveStepRecord(date, steps) {
+  try {
+    var lock = LockService.getScriptLock();
+    lock.waitLock(10000);
+
+    var sheet = getStepsSheet();
+    var data = sheet.getDataRange().getValues();
+    var rowIndex = -1;
+
+    for (var i = 1; i < data.length; i++) {
+      if (String(data[i][0]) === String(date)) {
+        rowIndex = i + 1; // 1-indexed
+        break;
+      }
+    }
+
+    if (rowIndex === -1) {
+      sheet.appendRow([date, steps]);
+    } else {
+      sheet.getRange(rowIndex, 2).setValue(steps);
+    }
+
+    lock.releaseLock();
     return { success: true };
   } catch (err) {
     return { success: false, error: String(err) };
